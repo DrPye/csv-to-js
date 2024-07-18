@@ -1,10 +1,10 @@
-// Set the inner HTML first
 document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
    <form id="csvForm">
       <input type="file" id="csvInput" accept=".csv" />
       <input type="submit" value="Submit" />
     </form>
     <textarea name="" id="csvResult" cols="30" rows="10"></textarea>
+    <button id="copyButton">Copy to Clipboard</button>
 `;
 
 // Now that the elements exist in the DOM, access them
@@ -12,6 +12,7 @@ import "./style.css";
 const form = document.querySelector("#csvForm")!;
 const csvFileInput = document.querySelector("#csvInput")! as HTMLInputElement;
 const textArea = document.querySelector("#csvResult")! as HTMLTextAreaElement;
+const copyButton = document.querySelector("#copyButton")! as HTMLButtonElement;
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -27,6 +28,12 @@ form.addEventListener("submit", function (e) {
   if (file) {
     reader.readAsText(file);
   }
+});
+
+copyButton.addEventListener("click", function () {
+  textArea.select();
+  document.execCommand("copy");
+  alert("Copied to clipboard!");
 });
 
 interface CSVObject {
